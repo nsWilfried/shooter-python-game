@@ -31,7 +31,8 @@ class Player(pygame.sprite.Sprite):
         self.all_right_projectiles.add(Projectile(self, x, y, self.game))
 
     def health_bar(self, surface):
-        pygame.draw.rect(surface, (0, 0, 0), [self.rect.x + 50, self.rect.y -20, self.health, 8])
+        pygame.draw.rect(surface, (0, 0, 0), [self.rect.x + 50, self.rect.y - 20, self.max_health, 8])
         pygame.draw.rect(surface, (22, 232, 22), [self.rect.x + 50, self.rect.y - 20, self.health, 8])
 
-
+    def damage(self, monster):
+        self.health -= monster.attack

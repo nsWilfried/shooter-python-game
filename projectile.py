@@ -22,7 +22,7 @@ class Projectile(pygame.sprite.Sprite):
 
         if self.rect.x > 920 or self.game.check_collision(self, self.game.all_monsters):
             self.player.all_right_projectiles.remove(self)
-            for monster in self.game.all_monsters:
+            for monster in self.game.check_collision(self, self.game.all_monsters):
                 monster.damage(self)
                 if monster.health == 0:
                     monster.rect.x = 900
@@ -34,4 +34,3 @@ class Projectile(pygame.sprite.Sprite):
 
         if self.rect.x <= 0 :
             self.player.all_left_projectiles.remove(self)
-            print('projectile gauche hs')
