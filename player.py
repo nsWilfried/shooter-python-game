@@ -36,3 +36,7 @@ class Player(pygame.sprite.Sprite):
 
     def damage(self, monster):
         self.health -= monster.attack
+
+        if self.health <= 0:
+            self.game.is_playing = False
+

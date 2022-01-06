@@ -1,60 +1,36 @@
+# coding=utf-8
 import pygame
-from player import Player
-from monser import Monster
+from game import Game
 
 pygame.init()
-
-
-class Game:
-    def __init__(self):
-        self.player = Player(self)
-        self.all_monsters = pygame.sprite.Group()
-        self.build_monster()
-        self.build_monster()
-        self.pressed = {}
-
-    def build_monster(self):
-        self.all_monsters.add(Monster(self))
-
-    def check_collision(self, sprite, group):
-        return pygame.sprite.spritecollide(sprite, group, False, pygame.sprite.collide_mask)
-
-
 game = Game()
+
 # on initialise les modules de pygame
 pygame.display.set_caption("Shooter game")
 screen = pygame.display.set_mode((1080, 540))
 background = pygame.image.load('assets/assets/bg.jpg')
 running = True
+
+
 #  la boucle du jeu
 while running:
 
-
-
     # pour appliquer le background
-    screen.blit(background, (0,-440))
-    screen.blit(game.player.image, game.player.rect)
+    screen.blit(background, (0, -440))
 
 
-    for left_projectile in game.player.all_left_projectiles:
-        left_projectile.move_projectile_left()
 
-    for right_projectile in game.player.all_right_projectiles:
-        right_projectile.move_projectile_right()
+    if game.is_playing == True:
+        game.load_game(screen)
+    else:
+        game.banner_rect.x = screen.get_width()/4
+        game.playing_button_rect.x = screen.get_width()/3 - 30
+        game.playing_button_rect.y = screen.get_height()/2 +70
+        screen.blit(game.playing_button, game.playing_button_rect)
+        screen.blit(game.banner, game.banner_rect)
 
-    for monster in game.all_monsters:
-        monster.move_monster()
-        monster.build_health_bar(screen)
-
-    game.player.all_left_projectiles.draw(screen)
-    game.player.all_right_projectiles.draw(screen)
-    game.all_monsters.draw(screen)
-    game.player.health_bar(screen)
-
+    # mettre à jour la fenêtre
     pygame.display.flip()
-
-
-
     # verifier si le user compte aller a gauche ou  a droite
     if game.pressed.get(pygame.K_RIGHT) and game.player.rect.x + game.player.rect.width < 920:
         game.player.move_right()
@@ -75,4 +51,9 @@ while running:
                 game.player.launch_left_projectile(0, 90)
 
         elif event.type == pygame.KEYUP:
-            game.pressed[event.key] = False
+                game.pressed[event.key] = False
+
+        elif event.type == pygame.MOUSEBUTTONDOWN:
+            if game.playing_button_rect.collidepoint(event.pos):
+                game.is_playing = True
+

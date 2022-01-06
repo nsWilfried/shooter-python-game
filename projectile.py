@@ -6,7 +6,7 @@ class Projectile(pygame.sprite.Sprite):
         self.velocity = 2
         self.player = player
         self.image = pygame.image.load('assets/assets/projectile.png')
-        self.image = pygame.transform.scale(self.image, (50,50))
+        self.image = pygame.transform.scale(self.image, (50, 50))
         self.rect = self.image.get_rect()
         self.rect.x = self.player.rect.x + x
         self.rect.y = self.player.rect.y + y
