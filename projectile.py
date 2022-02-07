@@ -14,7 +14,7 @@ class Projectile(pygame.sprite.Sprite):
         self.angle = 30
 
     def rotate_projectile(self):
-        self.image = pygame.transform.rotozoom(self.originalImage, self.angle,1)
+        self.image = pygame.transform.rotozoom(self.originalImage, self.angle, 1)
 
     def move_projectile_right(self):
         self.rect.x += self.velocity

@@ -2,6 +2,7 @@
 import pygame
 from monser import Monster
 from player import Player
+from comet import Comet
 from comet_event import CometEvent
 
 class Game:
@@ -19,15 +20,31 @@ class Game:
         self.playing_button = pygame.transform.scale(self.playing_button, (400, 200))
         self.playing_button_rect = self.playing_button.get_rect()
         self.comet_event = CometEvent()
+        self.all_comets = pygame.sprite.Group()
 
     def start(self):
         self.is_playing = True
 
     def load_game(self, screen):
+
         # afficher l'image du joueur
         screen.blit(self.player.image, self.player.rect)
         self.comet_event.build_bar(screen)
         self.comet_event.move_bar()
+
+        # si la barre de pourcentage est au max, on affiche les comets
+        if self.comet_event.percent >= 1080:
+            self.comet_event.percent = 0
+            self.all_comets.add(Comet(self))
+
+
+        # faire bouger la comet
+        for comet in self.all_comets:
+            comet.move_comet()
+
+            # Si la comète dépasse l"écran alors on la supprime
+            if comet.rect.y >= screen.get_height():
+                self.all_comets.remove(comet)
 
         # faire bouger le projectile gauche
         for left_projectile in self.player.all_left_projectiles:
@@ -37,7 +54,7 @@ class Game:
         for right_projectile in self.player.all_right_projectiles:
             right_projectile.move_projectile_right()
 
-        # faire bouger le monstre et afficher leur barre de vie
+        # faire bouger !le monstre et afficher leur barre de vie
         for monster in self.all_monsters:
             monster.move_monster()
             monster.build_health_bar(screen)
@@ -47,6 +64,7 @@ class Game:
         self.player.all_right_projectiles.draw(screen)
         self.all_monsters.draw(screen)
         self.player.health_bar(screen)
+        self.all_comets.draw(screen)
 
 
 

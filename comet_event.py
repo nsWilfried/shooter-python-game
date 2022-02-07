@@ -4,7 +4,7 @@ class CometEvent:
 
     def __init__(self):
         self.percent = 0
-        self.max_percent = 100
+        self.max_percent = 920
         self.velocity = 5
 
     def build_bar(self, surface):
@@ -14,6 +14,6 @@ class CometEvent:
     def move_bar(self):
         self.percent += self.velocity
 
-        if self.percent == 100:
-            print('total')
+
+
 

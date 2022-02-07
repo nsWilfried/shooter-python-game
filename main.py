@@ -18,8 +18,6 @@ while running:
     # pour appliquer le background
     screen.blit(background, (0, -440))
 
-
-
     if game.is_playing == True:
         game.load_game(screen)
     else:
@@ -56,4 +54,5 @@ while running:
         elif event.type == pygame.MOUSEBUTTONDOWN:
             if game.playing_button_rect.collidepoint(event.pos):
                 game.is_playing = True
+                game.player.health = game.player.max_health
 
